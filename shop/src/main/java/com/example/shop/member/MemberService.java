@@ -2,6 +2,7 @@ package com.example.shop.member;
 
 
 import com.example.shop.member.dto.MemberUpdateRequest;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import com.example.shop.member.dto.MemberCreateRequest;
@@ -17,7 +18,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    //@Transactional
+    @Transactional
     public Long createMember(MemberCreateRequest request) {
         Member existingMember = memberRepository.findByLoginId(request.getLoginId());
         if (existingMember != null) {
@@ -36,12 +37,12 @@ public class MemberService {
         return member.getId();
     }
 
-    //@Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public List<Member> getAllMembers() {
         return memberRepository.findAll();
     }
 
-    //@Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public Member getMemberById(Long id) {
         Member member = memberRepository.findById(id);
 
@@ -52,7 +53,7 @@ public class MemberService {
         return member;
     }
 
-    //@Transactional
+    @Transactional
     public void updateMember(Long id, MemberUpdateRequest request) {
         Member member = memberRepository.findById(id);
 
@@ -64,7 +65,7 @@ public class MemberService {
         member.updateInfo(request.getPassword(), request.getPhoneNumber(), request.getAddress());
     }
 
-    //@Transactional
+    @Transactional
     public void deleteMember(Long id) {
         Member member = memberRepository.findById(id);
 
